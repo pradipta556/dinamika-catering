@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tentang Kami - Dinamika Food Service</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f1ea;
+      color: #3e2a47;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #6d4c41;
+      padding: 15px;
+      text-align: center;
+      width: 200px;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin: 10px 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ffb74d;
+      transform: scale(1.05);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 350px;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: #3e2a47;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .about-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      margin-top: 30px;
+    }
+
+    .about-content p {
+      font-size: 18px;
+      color: #6d4c41;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .about-content {
+        text-align: center;
+      }
+    }
+
+    /* ===== Animation ===== */
+    .animate-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <nav class="animate-fade">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/about">About Us</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="container animate-fade">
+    <img src="/images/LOGO%20DINAMIKA%20FIX.png" alt="Logo Dinamika Food Service" class="logo">
+
+    <header>
+      <h1>Tentang Kami</h1>
+    </header>
+
+    <div class="about-content">
+      <p>
+        Dinamika Food Service adalah layanan katering profesional yang menyediakan makanan berkualitas tinggi untuk berbagai acara.
+      </p>
+      <p>
+        Kami berkomitmen untuk memberikan pelayanan terbaik dengan menu yang lezat, bergizi, dan higienis. Baik untuk acara pribadi, perusahaan, hingga event besar, kami siap melayani dengan sepenuh hati.
+      </p>
+      <p>
+        Terima kasih telah mempercayakan kebutuhan makanan Anda kepada kami.
+      </p>
+    </div>
+
+    <footer class="animate-fade">
+      <p>&copy; 2025 Dinamika Food Service | Semua Hak Cipta Dilindungi</p>
+    </footer>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.animate-fade').forEach(el => {
+        setTimeout(() => {
+          el.classList.add('animate-show');
+        }, 200);
+      });
+    });
+  </script>
+</body>
+</html>

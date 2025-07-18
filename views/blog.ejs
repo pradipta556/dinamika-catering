@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog | Dinamika Food Service</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f1ea;
+      color: #3e2a47;
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding: 40px 20px;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #6d4c41;
+      padding: 15px;
+      text-align: center;
+      width: 200px;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+    nav ul { list-style: none; display: flex; flex-direction: column; padding: 0; }
+    nav ul li { margin: 10px 0; }
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    nav ul li a:hover { color: #ffb74d; transform: scale(1.05); }
+    nav ul li a:active { transform: scale(0.95); }
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 700;
+      color: #3e2a47;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+    .article {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 50px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+    .article h2 {
+      color: #3e2a47;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .article img {
+      display: block;
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background-color: #eee;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .article img:hover { transform: scale(1.01); }
+    .article p {
+      text-align: justify;
+      font-size: 18px;
+      color: #3e2a47;
+      margin-bottom: 18px;
+      white-space: pre-line;
+    }
+    .summary { display: block; }
+    .full-text { display: none; }
+    .read-more-btn {
+      background-color: #6d4c41;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+      font-weight: 600;
+    }
+    .read-more-btn:hover { background-color: #5e4031; }
+    .read-more-btn:active { transform: scale(0.95); }
+    a.back {
+      display: block;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #6d4c41;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+    a.back:hover { background-color: #5e4031; }
+    a.back:active { transform: scale(0.95); }
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+    }
+    @media (max-width: 768px) {
+      nav { top: 10px; left: 50%; transform: translateX(-50%); }
+    }
+    .animate-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .animate-show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding-top: 80px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    .modal-content:hover { cursor: zoom-out; }
+  </style>
+</head>
+<body>
+  <nav class="animate-fade">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/about">About Us</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <h1 class="animate-fade">Blog Dinamika Food Service</h1>
+
+  <% blog.forEach(artikel => { %>
+    <%
+      const maxSummaryLength = 200;
+      const isLong = artikel.konten.length > maxSummaryLength;
+      const summary = isLong
+        ? artikel.konten.substring(0, maxSummaryLength) + '...'
+        : artikel.konten;
+    %>
+    <div class="article animate-fade">
+      <h2><%= artikel.judul %></h2>
+      <img src="/images/<%= artikel.gambar %>" alt="<%= artikel.judul %>" class="zoomable">
+      <p class="summary"><%- summary.replace(/\n/g, '<br>') %></p>
+      <p class="full-text"><%- artikel.konten.replace(/\n/g, '<br>') %></p>
+      <% if (isLong) { %>
+        <button class="read-more-btn">Baca Selengkapnya</button>
+      <% } %>
+    </div>
+  <% }) %>
+
+  <a href="/" class="back">← Kembali ke Beranda</a>
+
+  <footer class="animate-fade">
+    <p>&copy; 2025 Dinamika Food Service | Semua Hak Cipta Dilindungi</p>
+  </footer>
+
+  <div id="imageModal" class="modal">
+    <img class="modal-content" id="modalImage" />
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.animate-fade').forEach(el => {
+        setTimeout(() => el.classList.add('animate-show'), 200);
+      });
+
+      document.querySelectorAll('.read-more-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const article = button.closest('.article');
+          const summary = article.querySelector('.summary');
+          const fullText = article.querySelector('.full-text');
+
+          if (fullText.style.display === 'block') {
+            fullText.style.display = 'none';
+            summary.style.display = 'block';
+            button.textContent = 'Baca Selengkapnya';
+          } else {
+            fullText.style.display = 'block';
+            summary.style.display = 'none';
+            button.textContent = 'Tutup';
+          }
+        });
+      });
+
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+
+      document.querySelectorAll('.zoomable').forEach(img => {
+        img.addEventListener('click', () => {
+          modal.style.display = "block";
+          modalImg.src = img.src;
+        });
+      });
+
+      modal.addEventListener('click', () => {
+        modal.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout | Dinamika Catering</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f1ea;
+      color: #3e2a47;
+      padding: 40px 20px;
+    }
+
+    .checkout-form {
+      background-color: #fff;
+      max-width: 600px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 14px;
+      background-color: #6d4c41;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #5e4031;
+    }
+
+    small {
+      display: block;
+      color: #888;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <form action="/checkout" method="POST" class="checkout-form">
+    <h1>Form Checkout</h1>
+
+    <label for="nama">Nama Pemesan:</label>
+    <input type="text" id="nama" name="nama" required>
+
+    <label for="alamat">Alamat Pengiriman:</label>
+    <textarea id="alamat" name="alamat" rows="3" required></textarea>
+
+    <label for="tanggal">Tanggal Catering:</label>
+    <input type="date" id="tanggal" name="tanggal" required>
+    <small>* Maksimal pemesanan H-2 sebelum acara</small>
+
+    <label>Catatan Tambahan (Opsional):</label>
+    <textarea name="notes" rows="3" placeholder="Contoh: Diantar jam 9 pagi, rumah pagar hitam, dll."></textarea>
+
+    <button type="submit">Lanjut ke Pembayaran</button>
+  </form>
+
+  <script>
+    const tanggalInput = document.getElementById("tanggal");
+    const today = new Date();
+    today.setDate(today.getDate() + 2); // H-2
+
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    const minDate = `${yyyy}-${mm}-${dd}`;
+    tanggalInput.min = minDate;
+  </script>
+</body>
+</html>

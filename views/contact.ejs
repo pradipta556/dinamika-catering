@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kontak | Dinamika Food Service</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f1ea;
+      color: #3e2a47;
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding: 40px 20px;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #6d4c41;
+      padding: 15px;
+      text-align: center;
+      width: 200px;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin: 10px 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ffb74d;
+      transform: scale(1.05);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 38px;
+      margin-bottom: 20px;
+      color: #3e2a47;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+
+    p, ul {
+      font-size: 20px;
+      color: #6d4c41;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      margin: 10px 0;
+    }
+
+    a.back {
+      background-color: #6d4c41;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      margin-top: 30px;
+    }
+
+    a.back:hover {
+      background-color: #5e4031;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        border-radius: 8px;
+      }
+    }
+
+    .animate-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <nav class="animate-fade">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/about">About Us</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="container animate-fade">
+    <h1>Hubungi Kami</h1>
+    <p>Silakan hubungi kami melalui:</p>
+    <ul>
+      <li><strong>WhatsApp:</strong> 088225947063</li>
+      <li><strong>Email:</strong> dinamikafoodservice@example.com</li>
+      <li><strong>Alamat:</strong> Jl. Makanan Enak No. 123, Jakarta</li>
+    </ul>
+    <a href="/" class="back">← Kembali ke Beranda</a>
+  </div>
+
+  <footer class="animate-fade">
+    <p>&copy; 2025 Dinamika Food Service | Semua Hak Cipta Dilindungi</p>
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.animate-fade').forEach(el => {
+        setTimeout(() => el.classList.add('animate-show'), 200);
+      });
+    });
+  </script>
+</body>
+</html>

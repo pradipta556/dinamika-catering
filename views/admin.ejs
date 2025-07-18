@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel | Dinamika Catering</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f4f1ea;
+      color: #3e2a47;
+      padding: 40px;
+      position: relative;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6d4c41;
+      margin-bottom: 30px;
+    }
+
+    .back-button-absolute {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+    }
+
+    .back-button-absolute a {
+      background-color: #6d4c41;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button-absolute a:hover {
+      background-color: #5e4031;
+    }
+
+    .top-button {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .top-button a {
+      background-color: #6d4c41;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .top-button a:hover {
+      background-color: #5e4031;
+    }
+
+    .admin-container {
+      display: flex;
+      gap: 30px;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+    }
+
+    form {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      flex: 1;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: #6d4c41;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #5e4031;
+    }
+
+    .menu-preview {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      flex: 1;
+      max-height: 600px;
+      overflow-y: auto;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    .menu-preview h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .menu-preview ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .menu-preview li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      margin-bottom: 12px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .menu-info {
+      flex: 1;
+      font-weight: bold;
+    }
+
+    .menu-action {
+      margin-left: 20px;
+    }
+
+    .hapus-button {
+      background-color: #d32f2f;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .hapus-button:hover {
+      background-color: #b71c1c;
+    }
+  </style>
+</head>
+<body>
+  <!-- Tombol kembali ke home -->
+  <div class="back-button-absolute">
+    <a href="/">⬅️ Kembali ke Beranda</a>
+  </div>
+
+  <h1>Admin Panel</h1>
+
+  <!-- Tombol laporan tetap di tengah -->
+  <div class="top-button">
+    <a href="/admin020504/laporan">📊 Lihat Laporan Pemesanan</a>
+  </div>
+
+  <div class="admin-container">
+    <form id="menuForm">
+      <h2>Tambah Menu Baru</h2>
+
+      <label for="nama">Nama Menu:</label>
+      <input type="text" id="nama" name="nama" required>
+
+      <label for="deskripsi">Deskripsi:</label>
+      <textarea id="deskripsi" name="deskripsi" required></textarea>
+
+      <label for="harga">Harga (tanpa titik):</label>
+      <input type="number" id="harga" name="harga" required>
+
+      <label for="nama_input">Nama Input Form (misal: paket_ayam):</label>
+      <input type="text" id="nama_input" name="nama_input" required>
+
+      <label for="gambar">Nama File Gambar (boleh lebih dari satu, pisahkan pakai koma):</label>
+      <input type="text" id="gambar" name="gambar" required>
+
+      <button type="submit">Tambah Menu</button>
+    </form>
+
+    <div class="menu-preview">
+      <h2>Menu yang Sudah Ada</h2>
+      <ul>
+        <% if (menu && menu.length > 0) { %>
+          <% menu.forEach(m => { %>
+            <li>
+              <div class="menu-info"><%= m.nama %> - Rp <%= m.harga.toLocaleString('id-ID') %></div>
+              <div class="menu-action">
+                <form action="/admin020504/hapus/<%= m.nama_input %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?')">
+                  <button type="submit" class="hapus-button">Hapus</button>
+                </form>
+              </div>
+            </li>
+          <% }) %>
+        <% } else { %>
+          <li>Belum ada menu.</li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="admin-container">
+    <form id="blogForm">
+      <h2>Tambah Artikel Blog</h2>
+
+      <label for="judul">Judul:</label>
+      <input type="text" id="judul" name="judul" required>
+
+      <label for="isi">Isi:</label>
+      <textarea id="isi" name="isi" required></textarea>
+
+      <label for="gambarBlog">Nama File Gambar:</label>
+      <input type="text" id="gambarBlog" name="gambar" required>
+
+      <button type="submit">Tambah Artikel</button>
+    </form>
+
+    <div class="menu-preview">
+      <h2>Artikel Blog</h2>
+      <ul>
+        <% if (blog && blog.length > 0) { %>
+          <% blog.forEach((b, i) => { %>
+            <li>
+              <div class="menu-info"><%= b.judul %></div>
+              <div class="menu-action">
+                <form action="/admin020504/blog/hapus/<%= i %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus artikel ini?')">
+                  <button type="submit" class="hapus-button">Hapus</button>
+                </form>
+              </div>
+            </li>
+          <% }) %>
+        <% } else { %>
+          <li>Belum ada artikel.</li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('menuForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const data = {
+        nama: document.getElementById('nama').value,
+        deskripsi: document.getElementById('deskripsi').value,
+        harga: parseInt(document.getElementById('harga').value),
+        nama_input: document.getElementById('nama_input').value,
+        gambar: document.getElementById('gambar').value.split(',').map(g => g.trim())
+      };
+
+      try {
+        const res = await fetch('/api/admin/menu', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        alert(result.message);
+        window.location.reload();
+      } catch (err) {
+        console.error(err);
+        alert('Gagal menambahkan menu');
+      }
+    });
+
+    document.getElementById('blogForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const data = {
+        judul: document.getElementById('judul').value,
+        isi: document.getElementById('isi').value,
+        gambar: document.getElementById('gambarBlog').value
+      };
+
+      try {
+        const res = await fetch('/api/admin/blog', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        alert(result.message);
+        window.location.reload();
+      } catch (err) {
+        console.error(err);
+        alert('Gagal menambahkan artikel');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dinamika Food Service</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f1ea;
+      color: #3e2a47;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .middle-bg {
+      position: absolute;
+      top: 25%;
+      left: 0;
+      width: 100%;
+      height: 600px;
+      background-image: url('images/background.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.12;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #6d4c41;
+      padding: 15px;
+      text-align: center;
+      width: 200px;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin: 10px 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ffb74d;
+      transform: scale(1.05);
+    }
+
+    .action-btn {
+      position: fixed;
+      right: 20px;
+      background-color: #6d4c41;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .action-btn:hover {
+      background-color: #5e4031;
+      transform: scale(1.05);
+    }
+
+    .admin-panel-btn { top: 15px; }
+    .logout-btn { top: 65px; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 20px 20px 20px;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 400px;
+      margin-top: -40px;
+      margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    header {
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: #3e2a47;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    header p {
+      font-size: 20px;
+      color: #3e2a47;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta {
+      background-color: #6d4c41;
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 5px;
+      font-size: 18px;
+      font-weight: 600;
+      display: inline-block;
+      text-decoration: none;
+      margin-bottom: 30px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .cta:hover {
+      background-color: #5e4031;
+      transform: scale(1.05);
+    }
+
+    .services {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      margin: 40px 0;
+    }
+
+    .service-item {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 30%;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-item:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .service-item h3 {
+      color: #6d4c41;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .service-item p {
+      color: #6d4c41;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .contact-info {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #6d4c41;
+    }
+
+    .contact-info strong {
+      color: #3e2a47;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      .services {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .service-item {
+        width: 100%;
+      }
+
+      nav {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .action-btn {
+        right: 10px;
+        padding: 8px 14px;
+        font-size: 14px;
+      }
+
+      .admin-panel-btn { top: 10px; }
+      .logout-btn { top: 55px; }
+    }
+
+    .animate-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="middle-bg"></div>
+
+  <% if (isAdmin) { %>
+    <a href="/admin020504" class="action-btn admin-panel-btn">🔁 Admin Panel</a>
+    <a href="/logout" class="action-btn logout-btn">🚪 Logout</a>
+  <% } else { %>
+    <a href="/login" class="action-btn admin-panel-btn">🔐 Admin</a>
+  <% } %>
+
+  <nav class="animate-fade">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/about">About Us</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="container animate-fade">
+    <img src="images/LOGO DINAMIKA FIX.png" alt="Logo Dinamika Food Service" class="logo">
+
+    <header>
+      <h1>Selamat datang di Dinamika Food Service</h1>
+      <p>Partner terpercaya Anda dalam menyediakan layanan katering berkualitas tinggi.</p>
+    </header>
+
+    <a href="/menu" class="cta">Jelajahi Menu Kami</a>
+
+    <div class="services">
+      <div class="service-item animate-fade">
+        <h3>Snack</h3>
+        <p>Camilan lezat dan beragam untuk acara Anda.</p>
+      </div>
+      <div class="service-item animate-fade">
+        <h3>Nasi Box</h3>
+        <p>Box makan lengkap dengan bahan berkualitas tinggi.</p>
+      </div>
+      <div class="service-item animate-fade">
+        <h3>Prasmanan</h3>
+        <p>Layanan prasmanan dengan berbagai pilihan menu.</p>
+      </div>
+    </div>
+
+    <div class="contact-info animate-fade">
+      <p>Untuk informasi lebih lanjut, hubungi kami di: <strong>088225947063</strong></p>
+    </div>
+
+    <footer class="animate-fade">
+      <p>&copy; 2025 Dinamika Food Service | Semua Hak Cipta Dilindungi</p>
+    </footer>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.animate-fade').forEach(el => {
+        setTimeout(() => {
+          el.classList.add('animate-show');
+        }, 200);
+      });
+    });
+  </script>
+</body>
+</html>

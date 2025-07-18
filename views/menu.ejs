@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu Makanan | Dinamika Food Service</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f4f1ea;
+      color: #3e2a47;
+      padding: 40px 20px;
+      margin: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .middle-bg {
+      position: absolute;
+      top: 25%;
+      left: 0;
+      width: 100%;
+      height: 600px;
+      background-image: url('images/background2.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .back-button {
+      display: inline-block;
+      background-color: #6d4c41;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .back-button:hover {
+      background-color: #5e4031;
+      transform: scale(1.03);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 42px;
+      margin-bottom: 40px;
+      color: #6d4c41;
+    }
+
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px; max-width: 1200px; margin: 0 auto;
+    }
+
+    .menu-item {
+      background-color: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s;
+      display: flex; flex-direction: column;
+    }
+
+    .menu-item:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(0,0,0,0.15); }
+
+    .image-wrapper { position: relative; width: 100%; height: 200px; }
+
+    .image-wrapper img {
+      width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: transform 0.3s;
+    }
+
+    .image-wrapper img:hover { transform: scale(1.03); }
+
+    .nav-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.4); color: white; border: none; border-radius: 50%;
+      width: 28px; height: 28px; font-size: 16px; cursor: pointer; z-index: 10;
+    }
+
+    .nav-btn:hover { background-color: rgba(0,0,0,0.6); }
+
+    .prev-btn { left: 8px; } .next-btn { right: 8px; }
+
+    .menu-item-content { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+    .menu-item h3 { margin: 0; font-size: 20px; color: #6d4c41; }
+
+    .menu-item p { font-size: 16px; margin: 0; flex: 1; }
+
+    .price { font-weight: bold; color: #6d4c41; }
+
+    input[type="number"] {
+      width: 80px; padding: 8px 10px; border: 1px solid #ccc;
+      border-radius: 8px; font-size: 16px; margin-top: 8px;
+    }
+
+    #total {
+      font-weight: bold; font-size: 22px; margin-top: 40px;
+      text-align: center; color: #6d4c41;
+    }
+
+    .button {
+      background-color: #6d4c41; color: white; border: none;
+      padding: 16px 34px; font-size: 18px; border-radius: 8px;
+      cursor: pointer; display: block; margin: 30px auto 0;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .button:hover { background-color: #5e4031; transform: scale(1.03); }
+
+    .custom-info {
+      margin-top: 50px; padding: 20px; background-color: #fff3e0;
+      border-left: 5px solid #ff9800; border-radius: 10px;
+      max-width: 720px; margin: 50px auto; font-size: 17px;
+      text-align: center; line-height: 1.7;
+    }
+
+    .modal {
+      display: none; position: fixed; z-index: 9999; left: 0; top: 0;
+      width: 100%; height: 100%; overflow: auto;
+      background-color: rgba(0,0,0,0.85);
+    }
+
+    .modal-content { margin: 5% auto; display: block; max-width: 80%; border-radius: 12px; }
+
+    .modal-close {
+      position: absolute; top: 30px; right: 50px;
+      color: white; font-size: 42px; font-weight: bold; cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .menu-item img { height: 180px; }
+      .menu-item input[type="number"] { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="middle-bg"></div>
+
+  <a href="/" class="back-button">← Kembali ke Beranda</a>
+
+  <h1>Daftar Menu</h1>
+
+  <form id="orderForm" action="/menu" method="POST">
+    <div class="menu-grid">
+      <% menu.forEach((item, index) => {
+        const gambarList = item.gambar ? item.gambar.split(',') : [];
+      %>
+        <div class="menu-item">
+          <div class="image-wrapper">
+            <img id="img-<%= index %>" src="/images/<%= gambarList[0] %>" alt="<%= item.nama %>" onclick="zoomImage(this.src)">
+            <% if (gambarList.length > 1) { %>
+              <button type="button" class="nav-btn prev-btn" onclick="changeImage(<%= index %>, -1)">‹</button>
+              <button type="button" class="nav-btn next-btn" onclick="changeImage(<%= index %>, 1)">›</button>
+            <% } %>
+          </div>
+          <div class="menu-item-content">
+            <h3><%= item.nama %></h3>
+            <p><%= item.deskripsi %></p>
+            <div class="price">Rp <%= item.harga.toLocaleString('id-ID') %></div>
+            <input type="number" name="<%= item.nama_input %>" min="0" value="0" data-price="<%= item.harga %>"> qty
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <div id="total">Total Harga: Rp 0</div>
+    <button type="submit" class="button">Pesan Sekarang</button>
+  </form>
+
+  <div class="custom-info">
+    <strong>Punya permintaan khusus?</strong><br>
+    Anda dapat request menu sesuai keinginan meskipun tidak tersedia di website.<br>
+    Silakan hubungi kami melalui WhatsApp di <strong>088225947063</strong>.
+  </div>
+
+  <div id="imgModal" class="modal">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll('input[type="number"]');
+    const totalDisplay = document.getElementById('total');
+    const imageIndexes = {};
+    const menu = <%- JSON.stringify(menu) %>;
+
+    function updateTotal() {
+      let total = 0;
+      inputs.forEach(input => {
+        const price = parseInt(input.dataset.price);
+        const quantity = parseInt(input.value) || 0;
+        total += price * quantity;
+      });
+      totalDisplay.textContent = 'Total Harga: Rp ' + total.toLocaleString('id-ID');
+    }
+
+    inputs.forEach(input => input.addEventListener('input', updateTotal));
+    updateTotal();
+
+    function zoomImage(src) {
+      const modal = document.getElementById("imgModal");
+      const modalImg = document.getElementById("modalImage");
+      modal.style.display = "block";
+      modalImg.src = src;
+    }
+
+    function closeModal() {
+      document.getElementById("imgModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("imgModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    function changeImage(index, direction) {
+      const gambarList = menu[index].gambar.split(',');
+      imageIndexes[index] = (imageIndexes[index] || 0) + direction;
+
+      if (imageIndexes[index] < 0) imageIndexes[index] = gambarList.length - 1;
+      if (imageIndexes[index] >= gambarList.length) imageIndexes[index] = 0;
+
+      const newSrc = `/images/${gambarList[imageIndexes[index]]}`;
+      document.getElementById(`img-${index}`).src = newSrc;
+    }
+  </script>
+</body>
+</html>

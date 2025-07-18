@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Laporan Pemesanan | Dinamika Catering</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f4f1ea;
+      color: #3e2a47;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6d4c41;
+      margin-bottom: 40px;
+    }
+
+    .back-button {
+      display: block;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background-color: #6d4c41;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 6px;
+      width: max-content;
+    }
+
+    .laporan-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .laporan-box.completed {
+      background-color: #e0f7fa;
+      border-left: 6px solid #00796b;
+    }
+
+    .laporan-box h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .laporan-actions {
+      margin-top: 10px;
+    }
+
+    .laporan-actions form {
+      display: inline;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      font-size: 14px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-delete {
+      background-color: #d32f2f;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background-color: #b71c1c;
+    }
+
+    .btn-done {
+      background-color: #388e3c;
+      color: white;
+    }
+
+    .btn-done:hover {
+      background-color: #2e7d32;
+    }
+
+    .meta-info {
+      margin: 10px 0 15px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .meta-info strong {
+      display: inline-block;
+      width: 120px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Laporan Pemesanan</h1>
+
+  <a href="/admin020504" class="back-button">⬅️ Kembali ke Halaman Admin</a>
+
+  <% if (laporan.length > 0) { %>
+    <% laporan.forEach((item, index) => { %>
+      <div class="laporan-box <% if (item.selesai) { %>completed<% } %>">
+        <h3>Pesanan #<%= index + 1 %> - <%= new Date(item.waktu).toLocaleString('id-ID') %></h3>
+
+        <div class="meta-info">
+          <p><strong>Nama:</strong> <%= item.nama_pemesan %></p>
+          <p><strong>Alamat:</strong> <%= item.alamat %></p>
+          <p><strong>Tanggal Catering:</strong> <%= item.tanggal_catering ? new Date(item.tanggal_catering).toLocaleDateString('id-ID') : '-' %></p>
+          <% if (item.catatan && item.catatan.trim()) { %>
+            <p><strong>Catatan:</strong> <%= item.catatan %></p>
+          <% } %>
+        </div>
+
+        <ul>
+          <% item.belanja.forEach(b => { %>
+            <li><%= b.qty %>x <%= b.nama %> - Rp <%= b.subtotal.toLocaleString('id-ID') %></li>
+          <% }) %>
+        </ul>
+        <p><strong>Total:</strong> Rp <%= item.total.toLocaleString('id-ID') %></p>
+
+        <div class="laporan-actions">
+          <% if (!item.selesai) { %>
+            <form action="/admin020504/laporan/selesai/<%= item.id %>" method="POST">
+              <button class="btn btn-done">✅ Tandai Selesai</button>
+            </form>
+          <% } else { %>
+            <em>✅ Telah Selesai</em>
+          <% } %>
+
+          <form action="/admin020504/laporan/hapus/<%= item.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
+            <button class="btn btn-delete">🗑 Hapus</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p>Tidak ada pesanan.</p>
+  <% } %>
+</body>
+</html>
