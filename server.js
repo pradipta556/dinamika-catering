@@ -1,3 +1,4 @@
+require('dotenv').config();
 // server.js
 const express = require('express');
 const path = require('path');
@@ -28,16 +29,11 @@ app.set('views', path.join(__dirname, 'views'));
 
 // MySQL setup
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT
+  host: process.env.DB_HOST
 });
 
 db.connect((err) => {
-  if (err) throw err;
-  console.log("✅ Terhubung ke MySQL");
+  console.log(process.env.DB_HOST);
 });
 
 // Middleware autentikasi admin
